@@ -1,0 +1,38 @@
+# Project: Assignment1_context_switching
+# Makefile created by Dev-C++ 5.4.0
+
+CPP      = g++.exe -D__DEBUG__
+CC       = gcc.exe -D__DEBUG__
+WINDRES  = windres.exe
+OBJ      = main.o thread_switch.o thread_start.o mythreads.o $(RES)
+LINKOBJ  = main.o thread_switch.o thread_start.o mythreads.o $(RES)
+LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -g3
+INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include"
+CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include"
+BIN      = Assignment1_context_switching.exe
+CXXFLAGS = $(CXXINCS)  -g3
+CFLAGS   = $(INCS)  -g3
+RM       = rm -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CC) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+main.o: main.c
+	$(CC) -c main.c -o main.o $(CFLAGS)
+
+thread_switch.o: thread_switch.s
+	$(CC) -c thread_switch.s -o thread_switch.o $(CFLAGS)
+
+thread_start.o: thread_start.s
+	$(CC) -c thread_start.s -o thread_start.o $(CFLAGS)
+
+mythreads.o: mythreads.c
+	$(CC) -c mythreads.c -o mythreads.o $(CFLAGS)
