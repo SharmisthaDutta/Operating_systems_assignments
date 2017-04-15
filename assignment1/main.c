@@ -19,9 +19,9 @@ int main()
   	current_thread->initial_function = fun_with_threads;
   	 
     thread_start(inactive_thread, current_thread);
-    //for(i =0;i<5;i++){
-    //	printf("looping\n ");
-    //	yield();
-    //}
+    for(i =0;i<5;i++){
+    	printf("i am in  main and I am going to call yield\n ");
+    	yield();
+    }
 	return 0;
 }
