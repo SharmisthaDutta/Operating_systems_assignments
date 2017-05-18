@@ -1,0 +1,39 @@
+1.Memory management is not included in the instructions above. Given this setup, what is an intuitive way to solve the problem 
+of memory reclamation for thread stacks and thread control blocks? What could we do to avoid excessive allocations and deallocations?
+
+Answer: Best way is by freeing the stack and tcb of the thread when its not needed. In this round robin scheduling approach we also
+need to free the ready list which is a queue that thread scheduler uses to start running a thread. When scheduler sees that a ready list is empty
+it should free the memory assoiciated with that ready list and it should also free memory of all the thread stacks and tcb. If scheduler sees
+that a threads state is done it should free its tcb and stack.
+
+2.When executing scheduler code (e.g. yield, thread_fork, etc), are we running in a thread? Which thread? 
+At what precise point can we say we have stopped running one thread's code and started running another?
+ This is a deliberately open-ended question; just give your thoughts.
+ 
+Answer:When executing scheduler code we are running the current thread that calls the scheduler code. It is like current thread makes
+a call to the scheduler using its stack. Scheduler code sees that current thread wants to yield. So it saves all the registers value
+into a data structure called thread control block and saves the value of stack pointer in tcb. Then it starts copying the value of the other
+thread it wants to run to those registers and copy the stack pointer value as well from the other threads tcb. Then it says return. It
+will return to the location as mentioned in the stack pointer. Since the stack pointer location is referring to the other thread
+now it will return to the other thread. Hence other thread starts running now. 
+
+3.What other functionality would you find useful in a threading API? Can you think of a multi-threaded application that you cannot write
+ given this simple interface?
+
+Answer: We did not do anything for blocking i/o call. If we are writing some application that involves reading from the disk majority
+of the times may be a database application we want to be able to do asynchronous i/o call. So that when we are calling a thread to reading
+some value from the disk, instead of blocking the thread by kernel, user level thread library can somehow know that its a blocking read
+and it schedules another thread to run.
+
+4. Notice that I have not instructed you to include a prototype for thread_wrap in scheduler.h Why might this be?
+Answer: Whatever functions we declare in scheduler header file is accesible to other c files that #include them. If we want to define a
+function in scheduler.c and wants to hide other modules from accessing it, we will not declare it in scheduler header file. thread_wrap
+is one such function.
+
+5. You may use the provided test program, or write your own. What makes this program a good test? What more could you add?
+
+Answer: I noticed that there is a yield function call inside our initial function, which means its also responsible for switching the
+threads. We could add something like a id or something for debugging purposes which could print out which thread we are currently running.
+
+
+Although I tried freeing memory I could not do it properly and i found some not-freed blocks which i did not know how to free.
