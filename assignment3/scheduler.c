@@ -33,7 +33,7 @@ void thread_fork(void(*target)(void*), void * arg){
 	struct thread *new_thread;
 	new_thread = malloc(sizeof(struct thread));
 	//Set the new thread's initial argument and initial function.
-  	printf("in the thread fork\n");
+  	//printf("in the thread fork\n");
   	new_thread->stack_pointer = malloc(STACK_SIZE) + STACK_SIZE;
 	new_thread->initial_argument = arg;
   	new_thread->initial_function = target;
@@ -52,10 +52,10 @@ void thread_fork(void(*target)(void*), void * arg){
 }
 // yield
 void yield() {
-  	printf("inside yield\n");
+  	//printf("inside yield\n");
     //If the current thread is not DONE, set its state to READY and enqueue it on the ready list.
     if(current_thread->state != DONE){
-         printf("inside the non done state of thread\n");
+         //printf("inside the non done state of thread\n");
     	//Set the current thread's state to READY 
   		current_thread->state = READY;
   		//enqueue it on the ready list.
@@ -65,7 +65,7 @@ void yield() {
 		// only dequeue if readylist is not empty
 		if(!is_empty(ready_list)){
   		//Dequeue the next thread from the ready list and set its state to RUNNING.
-                printf("dequeuing the next thread\n");
+                //printf("dequeuing the next thread\n");
   		deqthread =  thread_dequeue(ready_list);
   		deqthread->state = RUNNING;
 		}
@@ -81,12 +81,12 @@ void yield() {
   	printf("I am inside scheduler end function now\n");
   	while(!is_empty(ready_list)){
                 // and incur segmentation fault :(
-  		printf("not terminating lets yield again\n");
+  		//printf("not terminating lets yield again\n");
                 yield();
   	}
       
         free(ready_list);
         free(current_thread);
-        printf("freed memory");
+        //printf("freed memory");
        
   }
