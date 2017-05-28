@@ -35,7 +35,7 @@ void scheduler_begin();
 void thread_start(struct thread *old, struct thread *new);
 void thread_switch(struct thread *old, struct thread *new);
 
-void thread_fork(void(*target)(void*), void * arg);
+struct thread * thread_fork(void(*target)(void*), void * arg);
 void thread_join(struct thread *);
 void yield();
 void scheduler_end();
