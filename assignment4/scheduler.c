@@ -191,8 +191,8 @@ void thread_join(struct thread *thr){
                 yield();
   	}
       
-       // free(ready_list);
-       // free(current_thread);
-        //printf("freed memory");
+       free(ready_list);
+       free(current_thread);
+       printf("freed memory\n");
        
   }
